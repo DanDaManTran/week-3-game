@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>
+    Psychic Game
+  </title>
+</head>
+<body>
+  <h1>Are you a Psychic</h1>
+  <h4>Let's play a game. I am thinking of a letter. What letter am I thinking of?</h4>
+  <p>Number of wins: <span id=win></span></p>
+  <p>Number of loses: <span id=loses></span></p>
+  <p>Number of Guesses Left: <span id="guessLeft"></span></p>
+  <p>Your Guesses: <span id="playerGuesses"></span></p>
+  <p>Comment: <span id="comment"></span></p>
+
+ 	<script type="text/javascript">
+    //letters for guessing game, # of guess left, player's guesses, and comments
+    var win = 0;
+    var loses = 0;
+    var abc = ["A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"];
+    var ranNum = Math.floor(Math.random()*26);
+    var letter = abc[ranNum];
+    var playerGuesses = [];
+    var comment="";
+    var guessLeft=0;
+    
+
+    document.onkeyup = function(event){
+      //once a key is press it turns into a string. check if it is a letter then put it into the array
+      var input = String.fromCharCode(event.keyCode).toUpperCase();
+      if (input.match(/[a-z]/i)) {
+        playerGuesses.push(input);
+        document.getElementById("playerGuesses").innerHTML = playerGuesses.join(", ");
+      } 
+      //keeping track of guesses left
+      var i = playerGuesses.length-1;
+      guessLeft = 8-i;
+
+      //if win clear array, comment update, new letter
+      if(letter==playerGuesses[i]){
+        win+=1;
+        playerGuesses = [];
+        comment = "YOU WON!!";
+        ranNum = Math.floor(Math.random()*26);
+        letter = abc[ranNum];
+      //if lose clear array, comment update, new letter
+      } else if (i+1 == 9){
+        loses+=1;
+        playerGuesses = [];
+        comment = "You Lost :(";
+        ranNum = Math.floor(Math.random()*26);
+        letter = abc[ranNum];
+      //still guessing? update new comment 
+      } else {
+        comment = "Keep Guessing";
+      }
+      //update score board
+      document.getElementById("win").innerHTML = win;
+      document.getElementById("loses").innerHTML = loses;
+      document.getElementById("comment").innerHTML = comment;
+      document.getElementById("guessLeft").innerHTML = guessLeft;
+    }
+ 
+      
+  
+
+	</script>
+</body>
+</html>
